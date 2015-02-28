@@ -4,7 +4,10 @@ using System.Collections;
 [RequireComponent(typeof(BoxCollider2D))]
 public class OneWay : MonoBehaviour {
 
+	public int collideLayer = 0;
+	public int invisibleLayer = 8;
 	private GameObject player;
+
 	void Start()
 	{
 		player = GameObject.FindGameObjectWithTag ("Player");
@@ -16,13 +19,13 @@ public class OneWay : MonoBehaviour {
 		//Note that player must have a circle collider and platform must have box collider
 		if (player.rigidbody2D.velocity.y <= 0 && 
 		    player.transform.position.y - player.GetComponent<CircleCollider2D>().radius >= 
-		    transform.position.y + GetComponent<BoxCollider2D>().size.y) {
-			this.gameObject.layer = 0;
+		    transform.position.y + GetComponent<BoxCollider2D>().center.y + GetComponent<BoxCollider2D>().size.y / 2) {
+			this.gameObject.layer = collideLayer;
 			//switches to the default (collidable) layer
 		} 
 		//otherwise, don't collide
 		else {
-			this.gameObject.layer = 13;
+			this.gameObject.layer = invisibleLayer;
 			//switches to a special layer the player can pass through
 		}
 	}
