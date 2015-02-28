@@ -9,7 +9,8 @@ public class PlayerBallControl : MonoBehaviour {
 	public float maxPlayerGeneratedSpeed = 10f;
 	public float frictionCoefficient = 0.2f;		//percent magnitude of normal for friction force
 	public float frictionThresholdVelocity = 0.3f;	//threshold above which to apply friction
-	// Jumping, Boosting
+
+	// Jumping
 	public float jumpForce = 2800f;
 	public float jumpDelay = 0.4f;	//time (in s) delay between jumps
 	private float jumpTimer = 0.4f;
@@ -17,6 +18,7 @@ public class PlayerBallControl : MonoBehaviour {
 	public int jumpFrame = 0;
 	[HideInInspector]
 	public int springFrame = 0;
+
 	// Grounded vars
 	private bool grounded = false;			// Whether or not the player is grounded.
 	private bool hasContact = false;		// Whether the player is touching something
@@ -24,10 +26,38 @@ public class PlayerBallControl : MonoBehaviour {
 	public float wallHugThresholdAngle = 30f;
 	private float wallHug = 0f;
 
+	//moving platform detection vars
+	private bool onMovingPlatform = false;
+	private Transform platformParent;
+
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		if (col.GetComponent<MovingPlatform>() != null) 
+		{
+			onMovingPlatform = true;
+			platformParent = col.transform.parent;
+			//Debug.Log ("Player entered");
+		}
+	}
+	void OnTriggerExit2D(Collider2D col)
+	{
+		if (col.GetComponent<MovingPlatform>() != null) 
+		{
+			onMovingPlatform = false;
+			//Debug.Log ("Player exited");
+		}
+	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
 		foreach (ContactPoint2D contact in collision.contacts)
 			Debug.DrawRay (contact.point, contact.normal, Color.white);
+
+		if (collision.gameObject.GetComponent<Spring>() != null) {
+			//must initiate from here to avoid some race condition
+			collision.gameObject.GetComponent<Spring>().SpringCollide(gameObject);
+			return;
+		}
+
 		foreach (ContactPoint2D contact in collision.contacts)
 		{
 			if (Mathf.Abs(Vector2.Angle(Vector2.up, contact.normal)) < groundedThresholdAngle)
@@ -76,6 +106,12 @@ public class PlayerBallControl : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D collision) {
 		hasContact = false;
+		//if (collision.gameObject.GetComponent<MovingPlatform>() != null
+		//    && dState == DeformationState.Normal)
+		//	transform.parent.parent = null;	//get off the platform
+		if (!onMovingPlatform
+		    && transform.parent != null)
+			transform.parent = null;	//get off the platform
 	}
 
 	private void ListenForJump() {
@@ -108,6 +144,9 @@ public class PlayerBallControl : MonoBehaviour {
 				this.rigidbody2D.AddForce(Vector2.right * h * moveForce);
 			}
 		}
+
+		if (onMovingPlatform && transform.parent == null)
+			transform.parent = platformParent;
 
 		grounded = false;
 		wallHug = 0f;
