@@ -69,6 +69,8 @@ public class AudioController : MonoBehaviour {
 		if(harp.volume > 0){
 			harp.volume = harp.volume - .3f*Time.deltaTime;
         }
+        
+        playa.collisionType = 0;
     }
     
     IEnumerator MyCoroutine()
