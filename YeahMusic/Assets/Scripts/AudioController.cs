@@ -19,6 +19,7 @@ public class AudioController : MonoBehaviour {
 	public GameObject lastPlatform;
 
 	public GameObject platform;
+	public GameObject powerup;
 	private ArrayList platforms;
 	public int interval;
 	public int finterval;
@@ -135,6 +136,11 @@ public class AudioController : MonoBehaviour {
 			
 
 			float prob = Random.value;
+			if (prob < powerupChance)
+			{
+				Vector2 powerpos = new Vector2(Random.Range(-10f, 10f), pos.y);
+				GameObject powerobj = Instantiate(powerup, powerpos, Quaternion.identity) as GameObject;
+			}
 			if (timer > timeUntilFive && prob < probFifth) {
 				plat.type = 5;
 				plapla.type = 5;	

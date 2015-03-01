@@ -74,6 +74,8 @@ public class MovingPlatform : MonoBehaviour {
 			}
 			else {
 				//transform.position = new Vector3(lerp.x,lerp.y,0f); 
+				transform.position = new Vector3(transform.position.x + moveVelocity.x * Time.deltaTime, transform.position.y + moveVelocity.y * Time.deltaTime,0f);
+
 			}
 		}
 	}
