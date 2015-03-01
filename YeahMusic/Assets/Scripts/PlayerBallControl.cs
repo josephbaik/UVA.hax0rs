@@ -135,10 +135,10 @@ public class PlayerBallControl : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if(this.rigidbody2D.velocity.y > 0){
+		if(this.rigidbody2D.velocity.y >= 0){
 			this.gameObject.layer = 8;
         }
-        if(this.rigidbody2D.velocity.y <= 0){
+        if(this.rigidbody2D.velocity.y < 0){
         	this.gameObject.layer = 0;
         }
 		float h = Input.GetAxis ("Horizontal");

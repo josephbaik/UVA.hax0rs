@@ -39,7 +39,7 @@ public class AudioController : MonoBehaviour {
 			start = 0;
 			
 			
-			pos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y );
+			pos = new Vector2(transform.position.x + Random.Range(-17, 17), transform.position.y );
 			platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			Platform plat = platform.GetComponent<Platform>();
 			plat.type = 2;
