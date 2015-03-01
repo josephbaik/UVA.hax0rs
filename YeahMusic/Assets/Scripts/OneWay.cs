@@ -17,12 +17,20 @@ public class OneWay : MonoBehaviour {
 	{
 		//if the player is still or moving down, and his position is above this platform's position, then collide
 		//Note that player must have a circle collider and platform must have box collider
-		if (player.rigidbody2D.velocity.y <= 0 && 
-		    player.transform.position.y - player.GetComponent<CircleCollider2D>().radius >= 
+//		if (player.rigidbody2D.velocity.y <= 0 && 
+//		    player.transform.position.y - player.GetComponent<CircleCollider2D>().radius >= 
+//		    transform.position.y + GetComponent<BoxCollider2D>().center.y + GetComponent<BoxCollider2D>().size.y / 2) {
+//			this.gameObject.layer = collideLayer;
+//			//switches to the default (collidable) layer
+//		}
+		
+		Debug.Log("player bruh" + player.rigidbody2D.velocity.y);
+		if (player.rigidbody2D.velocity.y <= 0.1f && 
+		    player.transform.position.y - player.GetComponent<BoxCollider2D>().size.y/2 >= 
 		    transform.position.y + GetComponent<BoxCollider2D>().center.y + GetComponent<BoxCollider2D>().size.y / 2) {
 			this.gameObject.layer = collideLayer;
 			//switches to the default (collidable) layer
-		} 
+		}  
 		//otherwise, don't collide
 		else {
 			this.gameObject.layer = invisibleLayer;
