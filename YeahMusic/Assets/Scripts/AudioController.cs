@@ -24,6 +24,7 @@ public class AudioController : MonoBehaviour {
 	public int finterval;
 	private int start;
 	private Vector2 pos;
+	private Vector2 pos1;
 
 	public float spawnFloor = 0f;
 	public float spawnOffset = 2f;
@@ -117,31 +118,46 @@ public class AudioController : MonoBehaviour {
 				else if (x > 17f)
 					x = 17f - (x - 17f);
 				pos = new Vector2(x, lastPlatform.transform.position.y + spawnOffset);
+				
+				
 			}
-			else
+			else{
 				pos = new Vector2(Random.Range(-11f, 11f) + player.transform.position.x, player.transform.position.y + spawnOffset);
-
+			}
 			//platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
+			
+			pos1 = new Vector2(player.transform.position.x + Random.Range(-11f, 11f), pos.y);
+			
 			lastPlatform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			Platform plat = lastPlatform.GetComponent<Platform>();
+			GameObject pla = Instantiate(platform, pos1, Quaternion.identity) as GameObject;
+			Platform plapla = pla.GetComponent<Platform>();
+			
 
 			float prob = Random.value;
 			if (timer > timeUntilFive && prob < probFifth) {
-				plat.type = 5;	
+				plat.type = 5;
+				plapla.type = 5;	
 			}
 			else if (timer > timeUntilFour && prob < probFourth) {
 				plat.type = 4;
+				plapla.type = 4;
 
 			} else if (timer > timeUntilThree && prob < probThird) {
 				plat.type = 3;
+				plapla.type = 3;
 
 			} else if (timer > timeUntilTwo && prob < probSecond) {
 				plat.type = 2;
+				plapla.type = 2;
 
 			} else {
 				plat.type = 1;
+				plapla.type = 1;
 			}
 			platforms.Add(platform);
+			
+			
 		}
 		
 		switch(playa.collisionType){

@@ -35,6 +35,16 @@ public class PlayerAnimator : MonoBehaviour {
 				r.material.color = new Color(0.5f,0.5f,1);
 			}
 			break;
+		case 4:
+			foreach(Renderer r in GetComponentsInChildren<Renderer>()){
+				r.material.color = new Color(1f,0.5f,1);
+			}
+			break;
+		case 5:
+			foreach(Renderer r in GetComponentsInChildren<Renderer>()){
+				r.material.color = new Color(0.5f,1f,1f);
+			}
+			break;
 		default:
 			break;
 		}
