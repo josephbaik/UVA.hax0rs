@@ -18,6 +18,7 @@ public class DeathTest : MonoBehaviour {
 		if (col.tag == "Player")
 		{
 			//DIE!
+			Application.LoadLevel("Death");
 		}
 	}
 

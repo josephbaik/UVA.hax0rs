@@ -14,6 +14,6 @@ public class Button : MonoBehaviour {
 	}
 	
 	public void OnMouseDown(){
-		Application.LoadLevel("Joe");
+		Application.LoadLevel("JoeCopy");
 	}
 }
