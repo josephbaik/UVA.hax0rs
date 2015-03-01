@@ -35,19 +35,19 @@ public class ScrollingWallpaper : MonoBehaviour {
             }  
             switch(Random.Range(1, 5)){
 				case 1:
-					elem.renderer.material.color = new Color(1,0.5f,0.5f, 0.1f); //C#
+					elem.renderer.material.color = new Color(1,0.5f,0.5f, 0.3f*AudioController.volume/100); //C#
 					break;
 				case 2:
-					elem.renderer.material.color = new Color(0.5f,1,0.5f, 0.1f);
+				elem.renderer.material.color = new Color(0.5f,1,0.5f, 0.3f*AudioController.volume/100);
 					break;
 				case 3:
-					elem.renderer.material.color = new Color(0.5f,0.5f,1, 0.1f);
+				elem.renderer.material.color = new Color(0.5f,0.5f,1, 0.3f*AudioController.volume/100);
 					break;
 				case 4:
-					elem.renderer.material.color = new Color(1f,0.5f,1, 0.1f);
+				elem.renderer.material.color = new Color(1f,0.5f,1, 0.3f*AudioController.volume/100);
                     break;
                 case 5:
-                    elem.renderer.material.color = new Color(0.5f,1f,1f, 0.1f);
+				elem.renderer.material.color = new Color(0.5f,1f,1f, 0.3f*AudioController.volume/100);
                     break;
                 default:
                     elem.renderer.material.color = new Color(1,1,1);

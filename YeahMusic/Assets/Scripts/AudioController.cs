@@ -48,6 +48,8 @@ public class AudioController : MonoBehaviour {
 	private GameObject player;
 	private PlayerBallControl playa;
 	
+	public static float volume;
+	
 	// Use this for initialization
 	void Start () {
 		start = 0;	
@@ -208,7 +210,7 @@ public class AudioController : MonoBehaviour {
 			soundn.volume = soundn.volume -  .1f*Time.deltaTime;
 		}
 
-		float volume = (soundp.volume + soundb.volume + soundc.volume + sounde.volume + soundn.volume)*100/5;
+		volume = (soundp.volume + soundb.volume + soundc.volume + sounde.volume + soundn.volume)*100/5;
 		GUICounter.volume = (int)volume; 
 		GUICounter.scores += (volume / 10) *  (Time.deltaTime);
 		
