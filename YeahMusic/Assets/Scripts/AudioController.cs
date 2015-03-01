@@ -3,11 +3,19 @@ using System.Collections;
 
 
 public class AudioController : MonoBehaviour {
-	private AudioSource beat  ;
-	private AudioSource synth;
-	private AudioSource harp;
-	private AudioSource[] sources;
-	
+
+	public AudioClip[] percussion;
+	public AudioClip[] bass;
+	public AudioClip[] chiptune;
+	public AudioClip[] emotive;
+	public AudioClip[] noisy;
+
+	private AudioSource soundp;
+	private AudioSource soundb;
+	private AudioSource soundc;
+	private AudioSource sounde;
+	private AudioSource soundn;
+
 	public GameObject platform;
 	private ArrayList platforms;
 	public int interval;
@@ -20,9 +28,11 @@ public class AudioController : MonoBehaviour {
 	public float timeUntilTwo = 15f;
 	public float timeUntilThree = 30f;
 	public float timeUntilFour = 45f;
+	public float timeUntilFive = 45f;
 	public float probSecond = 0.6f;
 	public float probThird = 0.35f;
 	public float probFourth = 0.2f;
+	public float probFifth = 0.1f;
 	private float timer = 0f;
 	public float maxYSpawnOffset = 50f;
 
@@ -31,10 +41,6 @@ public class AudioController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		sources = GetComponents<AudioSource>();
-		synth = sources[0];
-		harp = sources[1];
-		beat = sources[2];
 		start = 0;	
 		platforms = new ArrayList();
 		Vector2 playerpos = new Vector2(transform.position.x, transform.position.y);
@@ -42,6 +48,48 @@ public class AudioController : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		playa = player.GetComponent<PlayerBallControl>();
 		spawnFloor = player.transform.position.y;
+
+		if (percussion.Length > 0) {
+			int i = Random.Range(0, percussion.Length - 1);
+			soundp = gameObject.AddComponent<AudioSource>();
+			soundp.clip = percussion[i];
+			soundp.loop = true;
+			soundp.volume = 0f;
+			soundp.Play();
+		}
+		if (bass.Length > 0) {
+			int i = Random.Range(0, bass.Length - 1);
+			soundb = gameObject.AddComponent<AudioSource>();
+			soundb.clip = bass[i];
+			soundb.loop = true;
+			soundb.volume = 0f;
+			soundb.Play();
+
+		}
+		if (chiptune.Length > 0) {
+			int i = Random.Range(0, chiptune.Length - 1);
+			soundc = gameObject.AddComponent<AudioSource>();
+			soundc.clip = chiptune[i];
+			soundc.loop = true;
+			soundc.volume = 0f;
+			soundc.Play();
+		}
+		if (emotive.Length > 0) {
+			int i = Random.Range(0, emotive.Length - 1);
+			sounde = gameObject.AddComponent<AudioSource>();
+			sounde.clip = emotive[i];
+			sounde.loop = true;
+			sounde.volume = 0f;
+			sounde.Play();
+		}
+		if (noisy.Length > 0) {
+			int i = Random.Range(0, noisy.Length - 1);
+			soundn = gameObject.AddComponent<AudioSource>();
+			soundn.clip = noisy[i];
+			soundn.loop = true;
+			soundn.volume = 0f;
+			soundn.Play();
+		}
 	}
 	
 	// Update is called once per frame
@@ -57,8 +105,9 @@ public class AudioController : MonoBehaviour {
 			spawnFloor += spawnOffset;
 			pos = new Vector2(transform.position.x + Random.Range(-10, 10), spawnFloor);
 
-			platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
-			Platform plat = platform.GetComponent<Platform>();
+			//platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
+			GameObject p = Instantiate(platform, pos, Quaternion.identity) as GameObject;
+			Platform plat = p.GetComponent<Platform>();
 
 			float prob = Random.value;
 			if (timer > timeUntilFour && prob < probFourth) {
@@ -78,29 +127,42 @@ public class AudioController : MonoBehaviour {
 		
 		switch(playa.collisionType){
 		case 1:
-			beat.volume = 1;
+			soundp.volume = 1;
 			break;
 		case 2:
-			synth.volume = 1;
+			soundb.volume = 1;
 			break;
 		case 3:
-			harp.volume = 1;
-            break;
+			soundc.volume = 1;
+			break;
+		case 4:
+			sounde.volume = 1;
+			break;
+		case 5:
+			soundn.volume = 1;
+			break;
+		
         default:
             break;
         }
 		
-		if(beat.volume > 0){
-			beat.volume = beat.volume -  .1f*Time.deltaTime;
+		if(soundp.volume > 0){
+			soundp.volume = soundp.volume -  .1f*Time.deltaTime;
         }
-		if(synth.volume > 0){
-			synth.volume = synth.volume -  .1f*Time.deltaTime;
+		if(soundb.volume > 0){
+			soundb.volume = soundb.volume -  .1f*Time.deltaTime;
 		}
-		if(harp.volume > 0){
-			harp.volume = harp.volume - .1f*Time.deltaTime;
-        }
-        
-        playa.collisionType = 0;
+		if(soundc.volume > 0){
+			soundc.volume = soundc.volume -  .1f*Time.deltaTime;
+		}
+		if(sounde.volume > 0){
+			sounde.volume = sounde.volume -  .1f*Time.deltaTime;
+		}
+		if(soundn.volume > 0){
+			soundn.volume = soundn.volume -  .1f*Time.deltaTime;
+		}
+
+		playa.collisionType = 0;
     }
     
     IEnumerator MyCoroutine()
