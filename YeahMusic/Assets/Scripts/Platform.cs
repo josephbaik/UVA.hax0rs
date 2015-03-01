@@ -49,7 +49,7 @@ public class Platform : MonoBehaviour {
 		playerContact = true;
 		if (!platContact) {
 			platContact = true;
-			GUICounter.scores += 10;
+			GUICounter.scores += 5;
 
 		}
 		playerContact = false;
