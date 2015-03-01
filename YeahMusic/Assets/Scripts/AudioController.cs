@@ -16,6 +16,8 @@ public class AudioController : MonoBehaviour {
 	private AudioSource sounde;
 	private AudioSource soundn;
 
+	public GameObject lastPlatform;
+
 	public GameObject platform;
 	private ArrayList platforms;
 	public int interval;
@@ -24,7 +26,7 @@ public class AudioController : MonoBehaviour {
 	private Vector2 pos;
 
 	public float spawnFloor = 0f;
-	private float spawnOffset = 2f;
+	public float spawnOffset = 2f;
 	public float timeUntilTwo = 15f;
 	public float timeUntilThree = 30f;
 	public float timeUntilFour = 45f;
@@ -97,20 +99,32 @@ public class AudioController : MonoBehaviour {
 		start += interval;
 		timer += Time.deltaTime;
 
-		if(start >= finterval && spawnFloor - player.transform.position.y < maxYSpawnOffset){
+		if(start >= finterval && lastPlatform == null || (lastPlatform != null && lastPlatform.transform.position.y - player.transform.position.y < maxYSpawnOffset)){
 			start = 0;
 
 			//pos = new Vector2(transform.position.x + Random.Range(-10, 10), Mathf.Max(transform.position.y, player.transform.position.y + spawnPlatformOffset));
 			//pos = new Vector2(transform.position.x + Random.Range(-17, 17), transform.position.y);
 			spawnFloor += spawnOffset;
-			pos = new Vector2(transform.position.x + Random.Range(-17, 17), spawnFloor);
+			if (lastPlatform != null) {
+				float x = Random.Range(-11f, 11f) + lastPlatform.transform.position.x;
+				if (x < -17f)
+					x = -17f + (-17f - x);
+				else if (x > 17f)
+					x = 17f - (x - 17f);
+				pos = new Vector2(x, lastPlatform.transform.position.y + spawnOffset);
+			}
+			else
+				pos = new Vector2(Random.Range(-11f, 11f) + player.transform.position.x, player.transform.position.y + spawnOffset);
 
 			//platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
-			GameObject p = Instantiate(platform, pos, Quaternion.identity) as GameObject;
-			Platform plat = p.GetComponent<Platform>();
+			lastPlatform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
+			Platform plat = lastPlatform.GetComponent<Platform>();
 
 			float prob = Random.value;
-			if (timer > timeUntilFour && prob < probFourth) {
+			if (timer > timeUntilFive && prob < probFifth) {
+				plat.type = 5;	
+			}
+			else if (timer > timeUntilFour && prob < probFourth) {
 				plat.type = 4;
 
 			} else if (timer > timeUntilThree && prob < probThird) {
@@ -167,10 +181,5 @@ public class AudioController : MonoBehaviour {
 		GUICounter.scores += (volume / 10) *  (Time.deltaTime);
 		
 		playa.collisionType = 0;
-    }
-    
-    IEnumerator MyCoroutine()
-	{
-		yield return new WaitForSeconds(20);    //Wait one frame
     }
 }
