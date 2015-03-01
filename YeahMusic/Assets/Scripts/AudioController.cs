@@ -7,6 +7,8 @@ public class AudioController : MonoBehaviour {
 	private AudioSource synth;
 	private AudioSource harp;
 	private AudioSource[] sources;
+	private AudioListener listener;
+	int volume;
 	
 	public GameObject platform;
 	private ArrayList platforms;
@@ -42,6 +44,7 @@ public class AudioController : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		playa = player.GetComponent<PlayerBallControl>();
 		spawnFloor = player.transform.position.y;
+		listener = GetComponent<AudioListener>();
 	}
 	
 	// Update is called once per frame
@@ -101,6 +104,9 @@ public class AudioController : MonoBehaviour {
         }
         
         playa.collisionType = 0;
+        float volume = (beat.volume + synth.volume + harp.volume)*100/3;
+        GUICounter.volume = (int)volume; 
+        GUICounter.scores += (volume / 10) *  (Time.deltaTime);
     }
     
     IEnumerator MyCoroutine()
