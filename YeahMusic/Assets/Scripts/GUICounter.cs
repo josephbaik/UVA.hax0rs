@@ -22,6 +22,8 @@ public class GUICounter : MonoBehaviour {
 		int timeSeconds = (int)time;
 
 		//todo: add in volume
-		GetComponent<GUIText> ().text = prefix1 + timeSeconds + "\n" + prefix2 + volume +  "\n" + prefix3 + scores;
+		GetComponent<GUIText> ().text = prefix1 + timeSeconds + 
+			"\n" + prefix2 + volume +  
+				"\n" + prefix3 + string.Format("{0:0.00}", scores);
 	}
 }
