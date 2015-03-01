@@ -9,6 +9,8 @@ using System.Collections;
 /// Can also be used for moving things which are not meant to be platformed on..
 /// be sure to set moveParent to false then!!
 /// </summary>
+/// ------- FOR HACK.UVA --------
+/// Platform destroys self when it travels its full path
 public class MovingPlatform : MonoBehaviour {
 	public Vector2 initialPoint;
 	public Vector2 endPoint;	//if flag below is set, this specifies an offset
@@ -62,6 +64,8 @@ public class MovingPlatform : MonoBehaviour {
 				mFrom = mTo;
 				mTo = temp;
 				paused = true;
+				Destroy (transform.parent.gameObject);
+				Destroy(this.gameObject);
 			}
 			float frac = moveTimer / moveTime;
 			//rigidbody2D.MovePosition (Vector2.Lerp (mFrom, mTo, Mathf.Clamp (frac, 0.0f, 1.0f)));

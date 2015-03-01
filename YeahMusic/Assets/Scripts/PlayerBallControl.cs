@@ -29,6 +29,10 @@ public class PlayerBallControl : MonoBehaviour {
 	//moving platform detection vars
 	private bool onMovingPlatform = false;
 	private Transform platformParent;
+	
+	//uva game platform type
+	[HideInInspector]
+	public int collisionType;
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -56,6 +60,10 @@ public class PlayerBallControl : MonoBehaviour {
 			//must initiate from here to avoid some race condition
 			collision.gameObject.GetComponent<Spring>().SpringCollide(gameObject);
 			return;
+		}
+		
+		if(collision.gameObject.GetComponent<Platform>() != null){
+			collisionType = collision.gameObject.GetComponent<Platform>().type;
 		}
 
 		foreach (ContactPoint2D contact in collision.contacts)

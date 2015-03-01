@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//PLATFORM FOR HACK.UVA
+//PLATFORMS SPAWN IN 3 TYPES FOR 3 MUSICS
 public class Platform : MonoBehaviour {
 	public int type;
 	private bool playerContact;
@@ -30,7 +32,7 @@ public class Platform : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(new Vector2(0,-IncrementTowards(0,5,6)));
+//		transform.Translate(new Vector2(0,-IncrementTowards(0,5,6)));
 	}
 	
 	public static float IncrementTowards (float c, float a, float t){
