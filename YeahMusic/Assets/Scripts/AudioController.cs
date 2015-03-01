@@ -42,7 +42,7 @@ public class AudioController : MonoBehaviour {
 			pos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y );
 			platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			Platform plat = platform.GetComponent<Platform>();
-			plat.type = 1;
+			plat.type = 2;
 			platforms.Add(platform);
 		}
 		
@@ -57,18 +57,17 @@ public class AudioController : MonoBehaviour {
 			harp.volume = 1;
             break;
         default:
-//            renderer.material.color = new Color(1,1,1);
             break;
         }
 		
-		while(beat.volume > 0){
-			beat.volume = beat.volume -  .0001f*Time.deltaTime;
+		if(beat.volume > 0){
+			beat.volume = beat.volume -  .3f*Time.deltaTime;
         }
-		while(synth.volume > 0){
-			synth.volume -= .0001f*Time.deltaTime;
+		if(synth.volume > 0){
+			synth.volume = synth.volume -  .3f*Time.deltaTime;
 		}
-		while(harp.volume > 0){
-			harp.volume -= .0001f*Time.deltaTime;
+		if(harp.volume > 0){
+			harp.volume = harp.volume - .3f*Time.deltaTime;
         }
     }
     
