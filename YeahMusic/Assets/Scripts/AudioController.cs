@@ -15,7 +15,8 @@ public class AudioController : MonoBehaviour {
 	private int start;
 	private Vector2 pos;
 
-	public float spawnPlatformOffset = 15f;
+	public float spawnFloor = 0f;
+	private float spawnOffset = 2f;
 	public float timeUntilTwo = 15f;
 	public float timeUntilThree = 30f;
 	public float timeUntilFour = 45f;
@@ -23,6 +24,7 @@ public class AudioController : MonoBehaviour {
 	public float probThird = 0.35f;
 	public float probFourth = 0.2f;
 	private float timer = 0f;
+
 
 	private GameObject player;
 	private PlayerBallControl playa;
@@ -38,7 +40,8 @@ public class AudioController : MonoBehaviour {
 		Vector2 playerpos = new Vector2(transform.position.x, transform.position.y);
 		//player = Instantiate(player, playerpos, Quaternion.identity) as GameObject;
 		player = GameObject.FindGameObjectWithTag ("Player");
-		playa = player.GetComponent<PlayerBallControl>();		
+		playa = player.GetComponent<PlayerBallControl>();
+		spawnFloor = player.transform.position.y;
 	}
 	
 	// Update is called once per frame
@@ -48,9 +51,12 @@ public class AudioController : MonoBehaviour {
 
 		if(start >= finterval){
 			start = 0;
-			
+
 			//pos = new Vector2(transform.position.x + Random.Range(-10, 10), Mathf.Max(transform.position.y, player.transform.position.y + spawnPlatformOffset));
-			pos = new Vector2(transform.position.x + Random.Range(-17, 17), transform.position.y );
+			//pos = new Vector2(transform.position.x + Random.Range(-17, 17), transform.position.y);
+			spawnFloor += spawnOffset;
+			pos = new Vector2(transform.position.x + Random.Range(-10, 10), spawnFloor);
+
 			platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			Platform plat = platform.GetComponent<Platform>();
 
