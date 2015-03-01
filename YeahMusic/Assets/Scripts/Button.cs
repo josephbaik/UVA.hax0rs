@@ -23,5 +23,7 @@ public class Button : MonoBehaviour {
 
 	public void GameTransition() {
 		Application.LoadLevel("JoeCopy");
+		AudioController.inGame = true;
+		//AudioController.Instance.Reset ();
 	}
 }

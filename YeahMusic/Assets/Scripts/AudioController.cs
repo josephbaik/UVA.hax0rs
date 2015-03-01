@@ -3,7 +3,14 @@ using System.Collections;
 
 
 public class AudioController : MonoBehaviour {
-	
+
+	public static float volume;
+	public static bool inGame=false;
+	private static AudioController instance = null;
+	public static AudioController Instance {
+		get { return instance; }
+	}
+
 	public AudioClip[] percussion;
 	public AudioClip[] bass;
 	public AudioClip[] chiptune;
@@ -29,7 +36,6 @@ public class AudioController : MonoBehaviour {
 	private Vector2 pos;
 	private Vector2 pos1;
 
-	public float spawnFloor = 0f;
 	public float spawnOffset = 2f;
 	public float timeUntilTwo = 15f;
 	public float timeUntilThree = 30f;
@@ -50,18 +56,25 @@ public class AudioController : MonoBehaviour {
 
 	private GameObject player;
 	private PlayerBallControl playa;
-	
-	public static float volume;
 
+	void Awake() {
+		if (instance != null && instance != this) {
+			Destroy(this.gameObject);
+			return;
+		} else {
+			instance = this;
+		}
+		DontDestroyOnLoad(this.gameObject);
+	}
+	
 	// Use this for initialization
 	void Start () {
 		start = 0;	
 		platforms = new ArrayList();
-		Vector2 playerpos = new Vector2(transform.position.x, transform.position.y);
-		//player = Instantiate(player, playerpos, Quaternion.identity) as GameObject;
-		player = GameObject.FindGameObjectWithTag ("Player");
-		playa = player.GetComponent<PlayerBallControl>();
-		spawnFloor = player.transform.position.y;
+		if (inGame) {
+			player = GameObject.FindGameObjectWithTag ("Player");
+			playa = player.GetComponent<PlayerBallControl>();
+		}
 
 		if (percussion.Length > 0) {
 			int i = Random.Range(0, percussion.Length - 1);
@@ -111,12 +124,12 @@ public class AudioController : MonoBehaviour {
 		start += interval;
 		timer += Time.deltaTime;
 
-		if(start >= finterval && lastPlatform == null || (lastPlatform != null && lastPlatform.transform.position.y - player.transform.position.y < maxYSpawnOffset)){
+		if(inGame && start >= finterval && lastPlatform == null || 
+		   (lastPlatform != null && lastPlatform.transform.position.y - player.transform.position.y < maxYSpawnOffset)){
 			start = 0;
 
 			//pos = new Vector2(transform.position.x + Random.Range(-10, 10), Mathf.Max(transform.position.y, player.transform.position.y + spawnPlatformOffset));
 			//pos = new Vector2(transform.position.x + Random.Range(-17, 17), transform.position.y);
-			spawnFloor += spawnOffset;
 			if (lastPlatform != null) {
 				float x = Random.Range(-11f, 11f) + lastPlatform.transform.position.x;
 				if (x < -17f)
@@ -124,8 +137,7 @@ public class AudioController : MonoBehaviour {
 				else if (x > 17f)
 					x = 17f - (x - 17f);
 				pos = new Vector2(x, lastPlatform.transform.position.y + spawnOffset);
-				
-				
+								
 			}
 			else{
 				pos = new Vector2(Random.Range(-11f, 11f) + player.transform.position.x, player.transform.position.y + spawnOffset);
@@ -181,54 +193,59 @@ public class AudioController : MonoBehaviour {
 
 			
 		}
-		
-		switch(playa.collisionType){
-		case 1:
-			soundp.volume = 1;
-			break;
-		case 2:
-			soundb.volume = 1;
-			break;
-		case 3:
-			soundc.volume = 1;
-			break;
-		case 4:
-			sounde.volume = 1;
-			break;
-		case 5:
-			soundn.volume = 1;
-			break;
-		
-        default:
-            break;
-        }
+
+		if (inGame) {
+			switch (playa.collisionType) {
+			case 1:
+					soundp.volume = 1;
+					break;
+			case 2:
+					soundb.volume = 1;
+					break;
+			case 3:
+					soundc.volume = 1;
+					break;
+			case 4:
+					sounde.volume = 1;
+					break;
+			case 5:
+					soundn.volume = 1;
+					break;
+
+			default:
+					break;
+			}
+		}
 
 		if (blastOn)
 			blastTimer += Time.deltaTime;
 		if (blastTimer > blastTime)
 			blastOn = false;
 
-		if(soundp.volume > 0 && !blastOn){
-			soundp.volume = soundp.volume -  .1f*Time.deltaTime;
+		float fallOffRate = 0.1f;
+		if (!inGame)
+			fallOffRate = 0.3f;
+		if((soundp.volume > 0 && !blastOn) || !inGame){
+			soundp.volume = soundp.volume -  fallOffRate*Time.deltaTime;
         }
-		if(soundb.volume > 0 && !blastOn){
-			soundb.volume = soundb.volume -  .1f*Time.deltaTime;
+		if((soundp.volume > 0 && !blastOn) || !inGame){
+			soundb.volume = soundb.volume -  fallOffRate*Time.deltaTime;
 		}        
-		if(soundc.volume > 0 && !blastOn){
-			soundc.volume = soundc.volume -  .1f*Time.deltaTime;
+		if((soundp.volume > 0 && !blastOn) || !inGame){
+			soundc.volume = soundc.volume -  fallOffRate*Time.deltaTime;
 		}
-		if(sounde.volume > 0 && !blastOn){
-			sounde.volume = sounde.volume -  .1f*Time.deltaTime;
+		if((soundp.volume > 0 && !blastOn) || !inGame){
+			sounde.volume = sounde.volume -  fallOffRate*Time.deltaTime;
 		}
-		if(soundn.volume > 0 && !blastOn){
-			soundn.volume = soundn.volume -  .1f*Time.deltaTime;
+		if((soundp.volume > 0 && !blastOn) || !inGame){
+			soundn.volume = soundn.volume -  fallOffRate*Time.deltaTime;
 		}
 
 		volume = (soundp.volume + soundb.volume + soundc.volume + sounde.volume + soundn.volume)*100/5;
 		GUICounter.volume = (int)volume; 
 		GUICounter.scores += (volume / 10) *  (Time.deltaTime);
-		
-		playa.collisionType = 0;
+
+		//playa.collisionType = 0;
     }
 
 	public void BlastAll() {
@@ -239,5 +256,68 @@ public class AudioController : MonoBehaviour {
 		soundn.volume = 1f;
 		blastOn = true;
 		blastTimer = 0f;
+	}
+
+	public void OnLevelWasLoaded(int level) {
+		Reset();
+	}
+
+	public void Reset() {
+		if (inGame) {
+			player = GameObject.FindGameObjectWithTag ("Player");
+			playa = player.GetComponent<PlayerBallControl>();
+
+			foreach (Component script in transform.GetComponents(typeof(AudioSource))) {
+				Destroy(script);
+			}
+
+			if (percussion.Length > 0) {
+				int i = Random.Range(0, percussion.Length - 1);
+				soundp = gameObject.AddComponent<AudioSource>();
+				soundp.clip = percussion[i];
+				soundp.loop = true;
+				soundp.volume = 0f;
+				soundp.Play();
+			}
+			if (bass.Length > 0) {
+				int i = Random.Range(0, bass.Length - 1);
+				soundb = gameObject.AddComponent<AudioSource>();
+				soundb.clip = bass[i];
+				soundb.loop = true;
+				soundb.volume = 0f;
+				soundb.Play();
+				
+			}
+			if (chiptune.Length > 0) {
+				int i = Random.Range(0, chiptune.Length - 1);
+				soundc = gameObject.AddComponent<AudioSource>();
+				soundc.clip = chiptune[i];
+				soundc.loop = true;
+				soundc.volume = 0f;
+				soundc.Play();
+			}
+			if (emotive.Length > 0) {
+				int i = Random.Range(0, emotive.Length - 1);
+				sounde = gameObject.AddComponent<AudioSource>();
+				sounde.clip = emotive[i];
+				sounde.loop = true;
+				sounde.volume = 0f;
+				sounde.Play();
+			}
+			if (noisy.Length > 0) {
+				int i = Random.Range(0, noisy.Length - 1);
+				soundn = gameObject.AddComponent<AudioSource>();
+				soundn.clip = noisy[i];
+				soundn.loop = true;
+				soundn.volume = 0f;
+				soundn.Play();
+			}
+
+			lastPlatform = null;
+			timer = 0;
+			start = 0;
+			blastTimer = 0;
+			blastOn = false;
+		}
 	}
 }
