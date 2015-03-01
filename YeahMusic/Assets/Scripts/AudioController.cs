@@ -50,7 +50,7 @@ public class AudioController : MonoBehaviour {
 			start = 0;
 			
 			//pos = new Vector2(transform.position.x + Random.Range(-10, 10), Mathf.Max(transform.position.y, player.transform.position.y + spawnPlatformOffset));
-			pos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y);
+			pos = new Vector2(transform.position.x + Random.Range(-17, 17), transform.position.y );
 			platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			Platform plat = platform.GetComponent<Platform>();
 
@@ -93,6 +93,8 @@ public class AudioController : MonoBehaviour {
 		if(harp.volume > 0){
 			harp.volume = harp.volume - .3f*Time.deltaTime;
         }
+        
+        playa.collisionType = 0;
     }
     
     IEnumerator MyCoroutine()
