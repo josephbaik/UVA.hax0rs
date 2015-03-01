@@ -20,8 +20,10 @@ public class PlayerBallControl : MonoBehaviour {
 	public int springFrame = 0;
 
 	// Grounded vars
-	private bool grounded = false;			// Whether or not the player is grounded.
-	private bool hasContact = false;		// Whether the player is touching something
+	[HideInInspector]
+	public bool grounded = false;
+	[HideInInspector]			// Whether or not the player is grounded.
+	public bool hasContact = false;		// Whether the player is touching something
 	public float groundedThresholdAngle = 45f;
 	public float wallHugThresholdAngle = 30f;
 	public bool groundedScore = false;
