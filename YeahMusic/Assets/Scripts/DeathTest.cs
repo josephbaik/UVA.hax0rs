@@ -3,9 +3,10 @@ using System.Collections;
 
 public class DeathTest : MonoBehaviour {
 
+	private GameObject fadeObj;
 	// Use this for initialization
 	void Start () {
-	
+		fadeObj = GameObject.FindGameObjectWithTag ("ScreenFader");
 	}
 	
 	// Update is called once per frame
@@ -18,8 +19,10 @@ public class DeathTest : MonoBehaviour {
 
 		if (col.tag == "Player")
 		{
-			Application.LoadLevel("Death");
-			GUICounter.scores = 0;
+			if (GetComponent<AudioSource>() != null) {
+				GetComponent<AudioSource>().Play ();
+			}
+			fadeObj.GetComponent<ScreenFading>().Transition(DeathTransition);
 		}
 
 		if (col.GetComponent<Platform>() != null)
@@ -30,6 +33,11 @@ public class DeathTest : MonoBehaviour {
 				}
 			Destroy(col.gameObject);
 		}
+	}
+
+	public void DeathTransition() {
+		Application.LoadLevel("Death");
+		GUICounter.scores = 0;
 	}
 
 }
