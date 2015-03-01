@@ -3,7 +3,7 @@ using System.Collections;
 
 
 public class AudioController : MonoBehaviour {
-
+	
 	public AudioClip[] percussion;
 	public AudioClip[] bass;
 	public AudioClip[] chiptune;
@@ -151,7 +151,7 @@ public class AudioController : MonoBehaviour {
         }
 		if(soundb.volume > 0){
 			soundb.volume = soundb.volume -  .1f*Time.deltaTime;
-		}
+		}        
 		if(soundc.volume > 0){
 			soundc.volume = soundc.volume -  .1f*Time.deltaTime;
 		}
@@ -162,6 +162,10 @@ public class AudioController : MonoBehaviour {
 			soundn.volume = soundn.volume -  .1f*Time.deltaTime;
 		}
 
+		float volume = (soundp.volume + soundb.volume + soundc.volume + sounde.volume + soundn.volume)*100/5;
+		GUICounter.volume = (int)volume; 
+		GUICounter.scores += (volume / 10) *  (Time.deltaTime);
+		
 		playa.collisionType = 0;
     }
     
