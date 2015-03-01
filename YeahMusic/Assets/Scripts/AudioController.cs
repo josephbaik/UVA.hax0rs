@@ -77,7 +77,7 @@ public class AudioController : MonoBehaviour {
 		}
 
 		if (percussion.Length > 0) {
-			int i = Random.Range(0, percussion.Length - 1);
+			int i = Random.Range(0, percussion.Length);
 			soundp = gameObject.AddComponent<AudioSource>();
 			soundp.clip = percussion[i];
 			soundp.loop = true;
@@ -85,7 +85,7 @@ public class AudioController : MonoBehaviour {
 			soundp.Play();
 		}
 		if (bass.Length > 0) {
-			int i = Random.Range(0, bass.Length - 1);
+			int i = Random.Range(0, bass.Length);
 			soundb = gameObject.AddComponent<AudioSource>();
 			soundb.clip = bass[i];
 			soundb.loop = true;
@@ -94,7 +94,7 @@ public class AudioController : MonoBehaviour {
 
 		}
 		if (chiptune.Length > 0) {
-			int i = Random.Range(0, chiptune.Length - 1);
+			int i = Random.Range(0, chiptune.Length);
 			soundc = gameObject.AddComponent<AudioSource>();
 			soundc.clip = chiptune[i];
 			soundc.loop = true;
@@ -102,7 +102,7 @@ public class AudioController : MonoBehaviour {
 			soundc.Play();
 		}
 		if (emotive.Length > 0) {
-			int i = Random.Range(0, emotive.Length - 1);
+			int i = Random.Range(0, emotive.Length);
 			sounde = gameObject.AddComponent<AudioSource>();
 			sounde.clip = emotive[i];
 			sounde.loop = true;
@@ -110,7 +110,7 @@ public class AudioController : MonoBehaviour {
 			sounde.Play();
 		}
 		if (noisy.Length > 0) {
-			int i = Random.Range(0, noisy.Length - 1);
+			int i = Random.Range(0, noisy.Length);
 			soundn = gameObject.AddComponent<AudioSource>();
 			soundn.clip = noisy[i];
 			soundn.loop = true;
@@ -272,7 +272,7 @@ public class AudioController : MonoBehaviour {
 			}
 
 			if (percussion.Length > 0) {
-				int i = Random.Range(0, percussion.Length - 1);
+				int i = Random.Range(0, percussion.Length);
 				soundp = gameObject.AddComponent<AudioSource>();
 				soundp.clip = percussion[i];
 				soundp.loop = true;
@@ -280,7 +280,7 @@ public class AudioController : MonoBehaviour {
 				soundp.Play();
 			}
 			if (bass.Length > 0) {
-				int i = Random.Range(0, bass.Length - 1);
+				int i = Random.Range(0, bass.Length);
 				soundb = gameObject.AddComponent<AudioSource>();
 				soundb.clip = bass[i];
 				soundb.loop = true;
@@ -289,7 +289,7 @@ public class AudioController : MonoBehaviour {
 				
 			}
 			if (chiptune.Length > 0) {
-				int i = Random.Range(0, chiptune.Length - 1);
+				int i = Random.Range(0, chiptune.Length);
 				soundc = gameObject.AddComponent<AudioSource>();
 				soundc.clip = chiptune[i];
 				soundc.loop = true;
@@ -297,7 +297,7 @@ public class AudioController : MonoBehaviour {
 				soundc.Play();
 			}
 			if (emotive.Length > 0) {
-				int i = Random.Range(0, emotive.Length - 1);
+				int i = Random.Range(0, emotive.Length);
 				sounde = gameObject.AddComponent<AudioSource>();
 				sounde.clip = emotive[i];
 				sounde.loop = true;
@@ -305,7 +305,7 @@ public class AudioController : MonoBehaviour {
 				sounde.Play();
 			}
 			if (noisy.Length > 0) {
-				int i = Random.Range(0, noisy.Length - 1);
+				int i = Random.Range(0, noisy.Length);
 				soundn = gameObject.AddComponent<AudioSource>();
 				soundn.clip = noisy[i];
 				soundn.loop = true;
