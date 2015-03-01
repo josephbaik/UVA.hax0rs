@@ -11,13 +11,13 @@ public class Button : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown("Confirm")){
+		if (Input.GetButtonDown("Submit")){
 			if (GetComponent<AudioSource> () != null)
 				GetComponent<AudioSource> ().Play ();
 			fadeObj.GetComponent<ScreenFading>().Transition(GameTransition);
 		}
 		
-		if(Input.GetButtonDown("Quit")){
+		if(Input.GetButtonDown("Cancel")){
 			Application.Quit();
 		}
 	}
