@@ -7,7 +7,7 @@ public class Platform : MonoBehaviour {
 	public int type;
 	private bool playerContact;
 	private BoxCollider2D hitbox;
-	
+	private bool platContact = false;
 	// Use this for initialization
 	void Start () {
 //		type = Random.
@@ -47,16 +47,14 @@ public class Platform : MonoBehaviour {
 	
 	void OnCollisionEnter2D(Collision2D collision) {
 		playerContact = true;
-		MyCoroutine();
+		if (!platContact) {
+			platContact = true;
+			GUICounter.scores += 10;
+
+		}
 		playerContact = false;
+	
 	}
 	
-	IEnumerator MyCoroutine()
-	{
-		
-		
-		yield return new WaitForSeconds(2);    //Wait one frame
-		
-		
-    }
+
 }
