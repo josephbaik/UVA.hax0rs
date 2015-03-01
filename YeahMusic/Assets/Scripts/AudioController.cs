@@ -20,6 +20,8 @@ public class AudioController : MonoBehaviour {
 
 	public GameObject platform;
 	public GameObject powerup;
+	public GameObject spring;
+
 	private ArrayList platforms;
 	public int interval;
 	public int finterval;
@@ -40,6 +42,7 @@ public class AudioController : MonoBehaviour {
 	private float timer = 0f;
 	public float maxYSpawnOffset = 50f;
 
+	public float springChance = 0.07f;
 	public float powerupChance = 0.02f;
 	public float blastTime = 10f;
 	public float blastTimer = 0f;
@@ -128,19 +131,23 @@ public class AudioController : MonoBehaviour {
 			//platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			
 			pos1 = new Vector2(player.transform.position.x + Random.Range(-11f, 11f), pos.y);
-			
-			lastPlatform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
+
+			GameObject pla;
+			float prob2 = Random.value;
+			if (prob2 < springChance)
+			{
+				lastPlatform = Instantiate(spring, pos, Quaternion.identity) as GameObject;
+				pla = Instantiate(spring, pos1, Quaternion.identity) as GameObject;
+			} else {
+				lastPlatform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
+				pla = Instantiate(platform, pos1, Quaternion.identity) as GameObject;
+			}
+
 			Platform plat = lastPlatform.GetComponent<Platform>();
-			GameObject pla = Instantiate(platform, pos1, Quaternion.identity) as GameObject;
 			Platform plapla = pla.GetComponent<Platform>();
 			
 
 			float prob = Random.value;
-			if (prob < powerupChance)
-			{
-				Vector2 powerpos = new Vector2(Random.Range(-10f, 10f), pos.y);
-				GameObject powerobj = Instantiate(powerup, powerpos, Quaternion.identity) as GameObject;
-			}
 			if (timer > timeUntilFive && prob < probFifth) {
 				plat.type = 5;
 				plapla.type = 5;	
@@ -162,7 +169,14 @@ public class AudioController : MonoBehaviour {
 				plapla.type = 1;
 			}
 			platforms.Add(platform);
-			
+
+			float prob3 = Random.value;
+			if (prob3 < powerupChance)
+			{
+				Vector2 powerpos = new Vector2(Random.Range(-10f, 10f), pos.y + Random.Range(1f, 3f));
+				GameObject powerobj = Instantiate(powerup, powerpos, Quaternion.identity) as GameObject;
+			}
+
 			
 		}
 		
