@@ -24,6 +24,7 @@ public class PlayerBallControl : MonoBehaviour {
 	private bool hasContact = false;		// Whether the player is touching something
 	public float groundedThresholdAngle = 45f;
 	public float wallHugThresholdAngle = 30f;
+	public bool groundedScore = false;
 	private float wallHug = 0f;
 
 	//moving platform detection vars
@@ -53,6 +54,7 @@ public class PlayerBallControl : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
+		groundedScore = true;
 		foreach (ContactPoint2D contact in collision.contacts)
 			Debug.DrawRay (contact.point, contact.normal, Color.white);
 
@@ -68,8 +70,10 @@ public class PlayerBallControl : MonoBehaviour {
 
 		foreach (ContactPoint2D contact in collision.contacts)
 		{
-			if (Mathf.Abs(Vector2.Angle(Vector2.up, contact.normal)) < groundedThresholdAngle)
-				grounded = true;
+			if (Mathf.Abs(Vector2.Angle(Vector2.up, contact.normal)) < groundedThresholdAngle){
+				grounded = true;		
+				GUICounter.scores += 10;
+			}
 			if (Mathf.Abs(Vector2.Angle(Vector2.right, contact.normal)) < wallHugThresholdAngle)
 				wallHug = Mathf.Sign(contact.normal.x);
 			if (Mathf.Abs(Vector2.Angle(-Vector2.right, contact.normal)) < wallHugThresholdAngle)
@@ -131,6 +135,7 @@ public class PlayerBallControl : MonoBehaviour {
 			jumpTimer = 0.0f;
 			hasContact = false;
 			jumpFrame = Time.frameCount;
+
 		}
 	}
 

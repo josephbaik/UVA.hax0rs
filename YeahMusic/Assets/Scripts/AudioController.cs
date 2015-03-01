@@ -3,7 +3,7 @@ using System.Collections;
 
 
 public class AudioController : MonoBehaviour {
-	private AudioSource beat;
+	private AudioSource beat  ;
 	private AudioSource synth;
 	private AudioSource harp;
 	private AudioSource[] sources;

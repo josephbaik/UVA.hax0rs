@@ -17,6 +17,7 @@ public class DeathTest : MonoBehaviour {
 	{
 		if (col.tag == "Player")
 		{
+			Application.LoadLevel("Death");
 		}
 
 		if (col.GetComponent<Platform>() != null)
