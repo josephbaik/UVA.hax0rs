@@ -22,6 +22,10 @@ public class DeathTest : MonoBehaviour {
 
 		if (col.GetComponent<Platform>() != null)
 		{
+			for(int i = 0; i < col.transform.childCount; i++)
+				if (col.transform.GetChild(i).tag == "Player") {
+					col.transform.GetChild(i).parent = null;
+				}
 			Destroy(col.gameObject);
 		}
 	}
