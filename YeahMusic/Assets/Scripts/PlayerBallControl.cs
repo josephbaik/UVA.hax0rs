@@ -70,10 +70,8 @@ public class PlayerBallControl : MonoBehaviour {
 
 		foreach (ContactPoint2D contact in collision.contacts)
 		{
-			if (Mathf.Abs(Vector2.Angle(Vector2.up, contact.normal)) < groundedThresholdAngle){
+			if (Mathf.Abs(Vector2.Angle(Vector2.up, contact.normal)) < groundedThresholdAngle)
 				grounded = true;		
-				GUICounter.scores += 10;
-			}
 			if (Mathf.Abs(Vector2.Angle(Vector2.right, contact.normal)) < wallHugThresholdAngle)
 				wallHug = Mathf.Sign(contact.normal.x);
 			if (Mathf.Abs(Vector2.Angle(-Vector2.right, contact.normal)) < wallHugThresholdAngle)
