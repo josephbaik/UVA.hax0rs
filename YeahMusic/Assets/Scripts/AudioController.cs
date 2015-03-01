@@ -14,8 +14,17 @@ public class AudioController : MonoBehaviour {
 	public int finterval;
 	private int start;
 	private Vector2 pos;
-	
-	public GameObject player;
+
+	public float spawnPlatformOffset = 15f;
+	public float timeUntilTwo = 15f;
+	public float timeUntilThree = 30f;
+	public float timeUntilFour = 45f;
+	public float probSecond = 0.6f;
+	public float probThird = 0.35f;
+	public float probFourth = 0.2f;
+	private float timer = 0f;
+
+	private GameObject player;
 	private PlayerBallControl playa;
 	
 	// Use this for initialization
@@ -27,22 +36,37 @@ public class AudioController : MonoBehaviour {
 		start = 0;	
 		platforms = new ArrayList();
 		Vector2 playerpos = new Vector2(transform.position.x, transform.position.y);
-		player = Instantiate(player, playerpos, Quaternion.identity) as GameObject;
-		playa = player.GetComponent<PlayerBallControl>();
+		//player = Instantiate(player, playerpos, Quaternion.identity) as GameObject;
+		player = GameObject.FindGameObjectWithTag ("Player");
+		playa = player.GetComponent<PlayerBallControl>();		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		start += interval;
-		
+		timer += Time.deltaTime;
+
 		if(start >= finterval){
 			start = 0;
 			
-			
-			pos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y );
+			//pos = new Vector2(transform.position.x + Random.Range(-10, 10), Mathf.Max(transform.position.y, player.transform.position.y + spawnPlatformOffset));
+			pos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y);
 			platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			Platform plat = platform.GetComponent<Platform>();
-			plat.type = 2;
+
+			float prob = Random.value;
+			if (timer > timeUntilFour && prob < probFourth) {
+				plat.type = 4;
+
+			} else if (timer > timeUntilThree && prob < probThird) {
+				plat.type = 3;
+
+			} else if (timer > timeUntilTwo && prob < probSecond) {
+				plat.type = 2;
+
+			} else {
+				plat.type = 1;
+			}
 			platforms.Add(platform);
 		}
 		
