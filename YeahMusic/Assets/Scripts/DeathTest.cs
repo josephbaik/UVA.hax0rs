@@ -15,9 +15,11 @@ public class DeathTest : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
+
 		if (col.tag == "Player")
 		{
 			Application.LoadLevel("Death");
+			GUICounter.scores = 0;
 		}
 
 		if (col.GetComponent<Platform>() != null)

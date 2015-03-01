@@ -5,7 +5,6 @@ public class TeleportSide : MonoBehaviour {
 
 	public Transform other;
 	public float xoffset;
-	public bool rightSide;
 
 	// Use this for initialization
 	void Start () {
@@ -20,12 +19,8 @@ public class TeleportSide : MonoBehaviour {
 	{
 		if (col.tag == "Player")
 		{
-			if (rightSide)
-				col.transform.position = new Vector3(other.transform.position.x + xoffset,
-					col.transform.position.y, col.transform.position.z);
-			else
-				col.transform.position = new Vector3(other.transform.position.x - xoffset,
-					col.transform.position.y, col.transform.position.z);
+			col.transform.position = new Vector3(other.transform.position.x + xoffset,
+				col.transform.position.y, col.transform.position.z);
 		}
 	}
 }
