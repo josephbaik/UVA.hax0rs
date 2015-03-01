@@ -91,13 +91,13 @@ public class AudioController : MonoBehaviour {
         }
 		
 		if(beat.volume > 0){
-			beat.volume = beat.volume -  .3f*Time.deltaTime;
+			beat.volume = beat.volume -  .1f*Time.deltaTime;
         }
 		if(synth.volume > 0){
-			synth.volume = synth.volume -  .3f*Time.deltaTime;
+			synth.volume = synth.volume -  .1f*Time.deltaTime;
 		}
 		if(harp.volume > 0){
-			harp.volume = harp.volume - .3f*Time.deltaTime;
+			harp.volume = harp.volume - .1f*Time.deltaTime;
         }
         
         playa.collisionType = 0;
