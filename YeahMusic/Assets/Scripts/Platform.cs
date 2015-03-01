@@ -21,6 +21,12 @@ public class Platform : MonoBehaviour {
 		case 3:
 			renderer.material.color = new Color(0.5f,0.5f,1);
 			break;
+		case 4:
+			renderer.material.color = new Color(1f,0.5f,1);
+			break;
+		case 5:
+			renderer.material.color = new Color(0.5f,1f,1f);
+			break;
 		default:
 			renderer.material.color = new Color(1,1,1);
 			break;

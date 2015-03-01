@@ -103,7 +103,7 @@ public class AudioController : MonoBehaviour {
 			//pos = new Vector2(transform.position.x + Random.Range(-10, 10), Mathf.Max(transform.position.y, player.transform.position.y + spawnPlatformOffset));
 			//pos = new Vector2(transform.position.x + Random.Range(-17, 17), transform.position.y);
 			spawnFloor += spawnOffset;
-			pos = new Vector2(transform.position.x + Random.Range(-10, 10), spawnFloor);
+			pos = new Vector2(transform.position.x + Random.Range(-17, 17), spawnFloor);
 
 			//platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
 			GameObject p = Instantiate(platform, pos, Quaternion.identity) as GameObject;
