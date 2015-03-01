@@ -63,6 +63,8 @@ public class PlayerBallControl : MonoBehaviour {
 		if (collision.gameObject.GetComponent<Spring>() != null) {
 			//must initiate from here to avoid some race condition
 			collision.gameObject.GetComponent<Spring>().SpringCollide(gameObject);
+			if (collision.transform.parent.GetComponent<Platform>() != null)
+				collisionType = collision.transform.parent.GetComponent<Platform>().type;
 			return;
 		}
 		
