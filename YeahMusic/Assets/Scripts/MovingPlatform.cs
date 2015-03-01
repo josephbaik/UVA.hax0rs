@@ -22,6 +22,7 @@ public class MovingPlatform : MonoBehaviour {
 	private bool paused = false;
 	private Vector2 mFrom;
 	private Vector2 mTo;
+	private Vector2 moveVelocity;
 	void Start() {
 		if (useCurrentStartPosition)
 		{
@@ -32,12 +33,14 @@ public class MovingPlatform : MonoBehaviour {
 			else
 				mFrom = transform.position;
 			mTo = mFrom+endPoint;
+			moveVelocity = endPoint / moveTime;
 		}else
 		{
 			transform.position = new Vector3(initialPoint.x, initialPoint.y, 0);
 			mFrom = initialPoint;
 			mTo = endPoint;
 		}
+		
 	}
 	void Update () {
 		if (paused)
@@ -59,16 +62,19 @@ public class MovingPlatform : MonoBehaviour {
 				mFrom = mTo;
                 mTo = temp;
                 paused = true;
-                Destroy (transform.parent.gameObject);
-                Destroy(this.gameObject);
+                //Destroy (transform.parent.gameObject);
+                //Destroy(this.gameObject);
             }
             float frac = moveTimer / moveTime;
             //rigidbody2D.MovePosition (Vector2.Lerp (mFrom, mTo, Mathf.Clamp (frac, 0.0f, 1.0f)));
             Vector2 lerp = Vector2.Lerp(mFrom, mTo, Mathf.Clamp(frac, 0.0f, 1.0f));
-            if (moveParent)
-				transform.parent.position = new Vector3(lerp.x,lerp.y,0f);
-			else
-				transform.position = new Vector3(lerp.x,lerp.y,0f);
+            if (moveParent) {
+				//transform.parent.position = new Vector3(lerp.x,lerp.y,0f);
+				transform.parent.position = new Vector3(transform.parent.position.x + moveVelocity.x * Time.deltaTime, transform.parent.position.y + moveVelocity.y * Time.deltaTime,0f);
+			}
+			else {
+				//transform.position = new Vector3(lerp.x,lerp.y,0f); 
+			}
 		}
 	}
 }

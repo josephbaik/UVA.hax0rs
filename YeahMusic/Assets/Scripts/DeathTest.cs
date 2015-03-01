@@ -17,7 +17,11 @@ public class DeathTest : MonoBehaviour {
 	{
 		if (col.tag == "Player")
 		{
-			//DIE!
+		}
+
+		if (col.GetComponent<Platform>() != null)
+		{
+			Destroy(col.gameObject);
 		}
 	}
 
