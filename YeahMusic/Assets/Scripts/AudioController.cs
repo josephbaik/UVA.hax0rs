@@ -61,13 +61,13 @@ public class AudioController : MonoBehaviour {
             break;
         }
 		
-		while(beat.volume > 0){
+		if(beat.volume > 0){
 			beat.volume = beat.volume -  .0001f*Time.deltaTime;
         }
-		while(synth.volume > 0){
+		if(synth.volume > 0){
 			synth.volume -= .0001f*Time.deltaTime;
 		}
-		while(harp.volume > 0){
+		if(harp.volume > 0){
 			harp.volume -= .0001f*Time.deltaTime;
         }
     }
