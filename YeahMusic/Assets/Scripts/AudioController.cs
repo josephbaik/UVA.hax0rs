@@ -24,7 +24,7 @@ public class AudioController : MonoBehaviour {
 	public float probThird = 0.35f;
 	public float probFourth = 0.2f;
 	private float timer = 0f;
-
+	public float maxYSpawnOffset = 50f;
 
 	private GameObject player;
 	private PlayerBallControl playa;
@@ -49,7 +49,7 @@ public class AudioController : MonoBehaviour {
 		start += interval;
 		timer += Time.deltaTime;
 
-		if(start >= finterval){
+		if(start >= finterval && spawnFloor - player.transform.position.y < maxYSpawnOffset){
 			start = 0;
 
 			//pos = new Vector2(transform.position.x + Random.Range(-10, 10), Mathf.Max(transform.position.y, player.transform.position.y + spawnPlatformOffset));

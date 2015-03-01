@@ -20,8 +20,10 @@ public class PlayerBallControl : MonoBehaviour {
 	public int springFrame = 0;
 
 	// Grounded vars
-	private bool grounded = false;			// Whether or not the player is grounded.
-	private bool hasContact = false;		// Whether the player is touching something
+	[HideInInspector]
+	public bool grounded = false;
+	[HideInInspector]			// Whether or not the player is grounded.
+	public bool hasContact = false;		// Whether the player is touching something
 	public float groundedThresholdAngle = 45f;
 	public float wallHugThresholdAngle = 30f;
 	public bool groundedScore = false;
@@ -141,7 +143,7 @@ public class PlayerBallControl : MonoBehaviour {
 		if(this.rigidbody2D.velocity.y >= 0){
 			this.gameObject.layer = 8;
         }
-        if(this.rigidbody2D.velocity.y < 0){
+        if(this.rigidbody2D.velocity.y < 0 || onMovingPlatform){
         	this.gameObject.layer = 0;
         }
 		float h = Input.GetAxis ("Horizontal");
