@@ -17,37 +17,37 @@ public class ScrollingWallpaper : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		start += interval * Time.deltaTime;
+		start += interval ;
 		if(transform.position.y >= pos.y + threshold && finterval <= start){
 			
 			switch(Random.Range(0, 2)){
 				case 0:
-					elem = Instantiate(circle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14, 10), Random.rotation) as GameObject;
+					elem = Instantiate(circle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
 					break;
 				case 1:
-					elem = Instantiate(square, new Vector3(Random.Range(-17f, 17f), transform.position.y+14, 10), Random.rotation) as GameObject;
+				elem = Instantiate(square, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
                     break;
                 case 2:
-					elem = Instantiate(triangle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14, 10), Random.rotation) as GameObject;
+				elem = Instantiate(triangle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
 					break;
 				default:
 					break;
             }  
             switch(Random.Range(1, 5)){
 				case 1:
-					elem.renderer.material.color = new Color(1,0.5f,0.5f, 0.5f); //C#
+					elem.renderer.material.color = new Color(1,0.5f,0.5f, 0.1f); //C#
 					break;
 				case 2:
-					elem.renderer.material.color = new Color(0.5f,1,0.5f, 0.5f);
+					elem.renderer.material.color = new Color(0.5f,1,0.5f, 0.1f);
 					break;
 				case 3:
-					elem.renderer.material.color = new Color(0.5f,0.5f,1, 0.5f);
+					elem.renderer.material.color = new Color(0.5f,0.5f,1, 0.1f);
 					break;
 				case 4:
-					elem.renderer.material.color = new Color(1f,0.5f,1, 0.5f);
+					elem.renderer.material.color = new Color(1f,0.5f,1, 0.1f);
                     break;
                 case 5:
-                    elem.renderer.material.color = new Color(0.5f,1f,1f, 0.5f);
+                    elem.renderer.material.color = new Color(0.5f,1f,1f, 0.1f);
                     break;
                 default:
                     elem.renderer.material.color = new Color(1,1,1);
