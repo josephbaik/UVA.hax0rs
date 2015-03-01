@@ -11,7 +11,15 @@ public class Button : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetButtonDown("Confirm")){
+			if (GetComponent<AudioSource> () != null)
+				GetComponent<AudioSource> ().Play ();
+			fadeObj.GetComponent<ScreenFading>().Transition(GameTransition);
+		}
+		
+		if(Input.GetButtonDown("Quit")){
+			Application.Quit();
+		}
 	}
 	
 	public void OnMouseDown(){
@@ -26,4 +34,6 @@ public class Button : MonoBehaviour {
 		AudioController.inGame = true;
 		//AudioController.Instance.Reset ();
 	}
+	
+	
 }
