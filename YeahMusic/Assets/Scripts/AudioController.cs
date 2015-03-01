@@ -38,6 +38,11 @@ public class AudioController : MonoBehaviour {
 	private float timer = 0f;
 	public float maxYSpawnOffset = 50f;
 
+	public float powerupChance = 0.02f;
+	public float blastTime = 10f;
+	public float blastTimer = 0f;
+	public bool blastOn = false;
+
 	private GameObject player;
 	private PlayerBallControl playa;
 	
@@ -159,20 +164,25 @@ public class AudioController : MonoBehaviour {
         default:
             break;
         }
-		
-		if(soundp.volume > 0){
+
+		if (blastOn)
+			blastTimer += Time.deltaTime;
+		if (blastTimer > blastTime)
+			blastOn = false;
+
+		if(soundp.volume > 0 && !blastOn){
 			soundp.volume = soundp.volume -  .1f*Time.deltaTime;
         }
-		if(soundb.volume > 0){
+		if(soundb.volume > 0 && !blastOn){
 			soundb.volume = soundb.volume -  .1f*Time.deltaTime;
 		}        
-		if(soundc.volume > 0){
+		if(soundc.volume > 0 && !blastOn){
 			soundc.volume = soundc.volume -  .1f*Time.deltaTime;
 		}
-		if(sounde.volume > 0){
+		if(sounde.volume > 0 && !blastOn){
 			sounde.volume = sounde.volume -  .1f*Time.deltaTime;
 		}
-		if(soundn.volume > 0){
+		if(soundn.volume > 0 && !blastOn){
 			soundn.volume = soundn.volume -  .1f*Time.deltaTime;
 		}
 
@@ -182,4 +192,14 @@ public class AudioController : MonoBehaviour {
 		
 		playa.collisionType = 0;
     }
+
+	public void BlastAll() {
+		soundp.volume = 1f;
+		soundb.volume = 1f;
+		soundc.volume = 1f;
+		sounde.volume = 1f;
+		soundn.volume = 1f;
+		blastOn = true;
+		blastTimer = 0f;
+	}
 }
