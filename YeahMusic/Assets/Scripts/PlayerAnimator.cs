@@ -2,23 +2,11 @@
 using System.Collections;
 
 public class PlayerAnimator : MonoBehaviour {
-	public Animator anim;
-	private int contactType;
-	private ArrayList body;
-	void Start () {
-		anim = GetComponent<Animator>();
-		int parts = transform.childCount;
-		body = new ArrayList();
-		for(int i=0; i<parts; i++){
-			body.Add(transform.GetChild(i));
-		}
-	}
 	
 	// Update is called once per frame
 	void Update () {
-		contactType = GetComponent<PlayerBallControl>().collisionType;
-		anim.SetBool("jumping", !(GetComponent<PlayerBallControl>().grounded));
-		
+		int contactType = GetComponent<PlayerBallControl>().collisionType;
+
 		switch(contactType){
 		case 1:
 			foreach(Renderer r in GetComponentsInChildren<Renderer>()){

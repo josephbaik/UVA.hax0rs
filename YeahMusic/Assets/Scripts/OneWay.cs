@@ -24,10 +24,10 @@ public class OneWay : MonoBehaviour {
 //			//switches to the default (collidable) layer
 //		}
 		
-		Debug.Log("player bruh" + player.rigidbody2D.velocity.y);
-		if (player.rigidbody2D.velocity.y <= 0.1f && 
+		Debug.Log("player bruh" + player.GetComponent<Rigidbody2D>().velocity.y);
+		if (player.GetComponent<Rigidbody2D>().velocity.y <= 0.1f && 
 		    player.transform.position.y - player.GetComponent<BoxCollider2D>().size.y/2 >= 
-		    transform.position.y + GetComponent<BoxCollider2D>().center.y + GetComponent<BoxCollider2D>().size.y / 2) {
+		    transform.position.y + GetComponent<BoxCollider2D>().offset.y + GetComponent<BoxCollider2D>().size.y / 2) {
 			this.gameObject.layer = collideLayer;
 			//switches to the default (collidable) layer
 		}  

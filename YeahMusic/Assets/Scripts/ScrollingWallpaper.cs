@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class ScrollingWallpaper : MonoBehaviour {
+	public Transform parent;
 	public GameObject circle, square, triangle;
 	private Camera cam;
 	private Vector2 pos;
@@ -25,35 +26,37 @@ public class ScrollingWallpaper : MonoBehaviour {
 					elem = Instantiate(circle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
 					break;
 				case 1:
-				elem = Instantiate(square, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
+					elem = Instantiate(square, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
                     break;
                 case 2:
-				elem = Instantiate(triangle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
+					elem = Instantiate(triangle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
 					break;
 				default:
 					break;
             }  
             switch(Random.Range(1, 5)){
 				case 1:
-					elem.renderer.material.color = new Color(1,0.5f,0.5f, 0.3f*AudioController.volume/100); //C#
+					elem.GetComponent<Renderer>().material.color = new Color(1,0.5f,0.5f, 0.3f*AudioController.volume/100); //C#
 					break;
 				case 2:
-				elem.renderer.material.color = new Color(0.5f,1,0.5f, 0.3f*AudioController.volume/100);
+					elem.GetComponent<Renderer>().material.color = new Color(0.5f,1,0.5f, 0.3f*AudioController.volume/100);
 					break;
 				case 3:
-				elem.renderer.material.color = new Color(0.5f,0.5f,1, 0.3f*AudioController.volume/100);
+					elem.GetComponent<Renderer>().material.color = new Color(0.5f,0.5f,1, 0.3f*AudioController.volume/100);
 					break;
 				case 4:
-				elem.renderer.material.color = new Color(1f,0.5f,1, 0.3f*AudioController.volume/100);
+					elem.GetComponent<Renderer>().material.color = new Color(1f,0.5f,1, 0.3f*AudioController.volume/100);
                     break;
                 case 5:
-				elem.renderer.material.color = new Color(0.5f,1f,1f, 0.3f*AudioController.volume/100);
+					elem.GetComponent<Renderer>().material.color = new Color(0.5f,1f,1f, 0.3f*AudioController.volume/100);
                     break;
                 default:
-                    elem.renderer.material.color = new Color(1,1,1);
+                    elem.GetComponent<Renderer>().material.color = new Color(1,1,1);
                     break;
             }
             start = 0;
+
+			elem.transform.parent = this.parent;
         }
         
         

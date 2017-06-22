@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DeathTest : MonoBehaviour {
 
+	private bool playerContact = false;
 	private GameObject fadeObj;
 	// Use this for initialization
 	void Start () {
@@ -17,12 +18,13 @@ public class DeathTest : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col)
 	{
 
-		if (col.tag == "Player")
+		if (col.tag == "Player" && !playerContact)
 		{
 			if (GetComponent<AudioSource>() != null) {
 				GetComponent<AudioSource>().Play ();
 			}
 			fadeObj.GetComponent<ScreenFading>().Transition(DeathTransition);
+			playerContact = true;
 		}
 
 		if (col.GetComponent<Platform>() != null)
@@ -32,6 +34,7 @@ public class DeathTest : MonoBehaviour {
 					col.transform.GetChild(i).parent = null;
 				}
 			Destroy(col.gameObject);
+			print ("destopry!");
 		}
 	}
 

@@ -27,8 +27,10 @@ public class Spring : MonoBehaviour {
 		if (Time.frameCount - player.GetComponent<PlayerBallControl>().jumpFrame > springJumpFrameThreshold &&
 		    Time.frameCount - player.GetComponent<PlayerBallControl>().springFrame > springJumpFrameThreshold )
 		{
-			player.rigidbody2D.AddForce (springForce * direction);
+			player.GetComponent<Rigidbody2D>().AddForce (springForce * direction);
 			player.GetComponent<PlayerBallControl>().springFrame = Time.frameCount;
+			player.GetComponent<Animator>().SetBool("jumping", true);
+
 			//Debug.Log ("Spring bounce " + Time.frameCount);
 			if (noiseSrc != null)
 				noiseSrc.Play();

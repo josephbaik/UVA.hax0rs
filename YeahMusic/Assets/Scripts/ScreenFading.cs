@@ -20,14 +20,14 @@ public class ScreenFading : MonoBehaviour {
 	
 	void Awake()
 	{
-		guiTexture.pixelInset = new Rect (0f, 0f, Screen.width, Screen.height);
-		guiTexture.color = Color.clear;
+		GetComponent<GUITexture>().pixelInset = new Rect (0f, 0f, Screen.width, Screen.height);
+		GetComponent<GUITexture>().color = Color.clear;
 		if (fadeOutOnStart)
 		{
 			fadeMusic = true;
 			if (musicObj != null)
-				musicObj.audio.volume = 0.0f;
-			guiTexture.color = opaqueColor;
+				musicObj.GetComponent<AudioSource>().volume = 0.0f;
+			GetComponent<GUITexture>().color = opaqueColor;
 			fadingOut = true;
 		}
 	}
@@ -37,14 +37,14 @@ public class ScreenFading : MonoBehaviour {
 	{
 		if (fadingIn)
 		{
-			guiTexture.color = Color.Lerp(guiTexture.color, opaqueColor, fadeSpeed * Time.deltaTime);
+			GetComponent<GUITexture>().color = Color.Lerp(GetComponent<GUITexture>().color, opaqueColor, fadeSpeed * Time.deltaTime);
 			if (fadeMusic && musicObj != null)
 			{
-				musicObj.audio.volume = Mathf.Lerp(musicObj.audio.volume, 0.0f, fadeSpeed * Time.deltaTime);
+				musicObj.GetComponent<AudioSource>().volume = Mathf.Lerp(musicObj.GetComponent<AudioSource>().volume, 0.0f, fadeSpeed * Time.deltaTime);
 			}
-			if (guiTexture.color.a >= inThreshold)
+			if (GetComponent<GUITexture>().color.a >= inThreshold)
 			{
-				guiTexture.color = opaqueColor;
+				GetComponent<GUITexture>().color = opaqueColor;
 				fadingIn = false;
 				if (transitionFunc != null)
 				{
@@ -55,14 +55,14 @@ public class ScreenFading : MonoBehaviour {
 		}
 		else if (fadingOut)
 		{
-			guiTexture.color = Color.Lerp(guiTexture.color, Color.clear, fadeSpeed * Time.deltaTime);
+			GetComponent<GUITexture>().color = Color.Lerp(GetComponent<GUITexture>().color, Color.clear, fadeSpeed * Time.deltaTime);
 			if (fadeMusic && musicObj != null)
 			{
-				musicObj.audio.volume = Mathf.Lerp(musicObj.audio.volume, 1.0f, fadeSpeed * Time.deltaTime);
+				musicObj.GetComponent<AudioSource>().volume = Mathf.Lerp(musicObj.GetComponent<AudioSource>().volume, 1.0f, fadeSpeed * Time.deltaTime);
 			}
-			if (guiTexture.color.a <= outThreshold)
+			if (GetComponent<GUITexture>().color.a <= outThreshold)
 			{
-				guiTexture.color = Color.clear;
+				GetComponent<GUITexture>().color = Color.clear;
 				fadingOut = false;
 			}
 		}

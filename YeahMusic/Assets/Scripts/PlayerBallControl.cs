@@ -26,7 +26,6 @@ public class PlayerBallControl : MonoBehaviour {
 	public bool hasContact = false;		// Whether the player is touching something
 	public float groundedThresholdAngle = 45f;
 	public float wallHugThresholdAngle = 30f;
-	public bool groundedScore = false;
 	private float wallHug = 0f;
 
 	//moving platform detection vars
@@ -43,7 +42,6 @@ public class PlayerBallControl : MonoBehaviour {
 		{
 			onMovingPlatform = true;
 			platformParent = col.transform.parent;
-			//Debug.Log ("Player entered");
 		}
 	}
 	void OnTriggerExit2D(Collider2D col)
@@ -51,12 +49,10 @@ public class PlayerBallControl : MonoBehaviour {
 		if (col.GetComponent<MovingPlatform>() != null) 
 		{
 			onMovingPlatform = false;
-			//Debug.Log ("Player exited");
 		}
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
-		groundedScore = true;
 		foreach (ContactPoint2D contact in collision.contacts)
 			Debug.DrawRay (contact.point, contact.normal, Color.white);
 
@@ -74,8 +70,10 @@ public class PlayerBallControl : MonoBehaviour {
 
 		foreach (ContactPoint2D contact in collision.contacts)
 		{
-			if (Mathf.Abs(Vector2.Angle(Vector2.up, contact.normal)) < groundedThresholdAngle)
-				grounded = true;		
+			if (Mathf.Abs (Vector2.Angle (Vector2.up, contact.normal)) < groundedThresholdAngle) {
+				grounded = true;
+				GetComponent<Animator>().SetBool("jumping", false);
+			}
 			if (Mathf.Abs(Vector2.Angle(Vector2.right, contact.normal)) < wallHugThresholdAngle)
 				wallHug = Mathf.Sign(contact.normal.x);
 			if (Mathf.Abs(Vector2.Angle(-Vector2.right, contact.normal)) < wallHugThresholdAngle)
@@ -89,8 +87,9 @@ public class PlayerBallControl : MonoBehaviour {
 			Debug.DrawRay (contact.point, contact.normal, Color.yellow);
 		foreach (ContactPoint2D contact in collision.contacts)
 		{
-			if (Mathf.Abs(Vector2.Angle(Vector2.up, contact.normal)) < groundedThresholdAngle)
+			if (Mathf.Abs (Vector2.Angle (Vector2.up, contact.normal)) < groundedThresholdAngle) {
 				grounded = true;
+			}
 			if (Mathf.Abs(Vector2.Angle(Vector2.right, contact.normal)) < wallHugThresholdAngle)
 				wallHug = Mathf.Sign(contact.normal.x);
 			if (Mathf.Abs(Vector2.Angle(-Vector2.right, contact.normal)) < wallHugThresholdAngle)
@@ -99,19 +98,19 @@ public class PlayerBallControl : MonoBehaviour {
 
 		foreach (ContactPoint2D contact in collision.contacts)
 		{
-			if (rigidbody2D.velocity.magnitude > frictionThresholdVelocity)
+			if (GetComponent<Rigidbody2D>().velocity.magnitude > frictionThresholdVelocity)
 			{
-				Vector2 frictionDir = -(rigidbody2D.velocity.normalized);
+				Vector2 frictionDir = -(GetComponent<Rigidbody2D>().velocity.normalized);
 				float frictionMag = contact.normal.magnitude * frictionCoefficient;
 				Vector2 frictionVec = frictionDir * frictionMag;
 				//maybe some safeguards against wall climbing using the normal here
-				rigidbody2D.AddForce(frictionVec);
+				GetComponent<Rigidbody2D>().AddForce(frictionVec);
 			}
 		}
-		if (Mathf.Abs(rigidbody2D.velocity.x) < frictionThresholdVelocity
+		if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) < frictionThresholdVelocity
 		    && Input.GetAxis("Horizontal") == 0)
 		{
-			rigidbody2D.velocity = new Vector2(0f, rigidbody2D.velocity.y);
+			GetComponent<Rigidbody2D>().velocity = new Vector2(0f, GetComponent<Rigidbody2D>().velocity.y);
 			//aimed to bring motion to a complete stop
 		}
 		hasContact = true;
@@ -120,20 +119,20 @@ public class PlayerBallControl : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D collision) {
 		hasContact = false;
-		//if (collision.gameObject.GetComponent<MovingPlatform>() != null
-		//    && dState == DeformationState.Normal)
-		//	transform.parent.parent = null;	//get off the platform
-		if (!onMovingPlatform
-		    && transform.parent != null)
+		if (!onMovingPlatform && transform.parent != null) 
+		{
 			transform.parent = null;	//get off the platform
+			GetComponent<Animator>().SetBool("jumping", true);
+		}
 	}
 
 	private void ListenForJump() {
 		if (Input.GetButton("Jump") && grounded && jumpTimer >= jumpDelay 
 		    && Time.frameCount - springFrame > Spring.springJumpFrameThreshold)
 		{
-			rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0f);	//gets rid of the "extra high jump"
-			this.rigidbody2D.AddForce(Vector2.up * jumpForce);
+			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0f);	//gets rid of the "extra high jump"
+			this.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce);
+			GetComponent<Animator>().SetBool("jumping", true);
 			jumpTimer = 0.0f;
 			hasContact = false;
 			jumpFrame = Time.frameCount;
@@ -142,10 +141,10 @@ public class PlayerBallControl : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if(this.rigidbody2D.velocity.y >= 0){
+		if(this.GetComponent<Rigidbody2D>().velocity.y >= 0){
 			this.gameObject.layer = 8;
         }
-        if(this.rigidbody2D.velocity.y < 0 || onMovingPlatform){
+        if(this.GetComponent<Rigidbody2D>().velocity.y < 0 || onMovingPlatform){
         	this.gameObject.layer = 0;
         }
 		float h = Input.GetAxis ("Horizontal");
@@ -155,18 +154,19 @@ public class PlayerBallControl : MonoBehaviour {
 		{
 			//recordButtonDelay();
 			//translational movement
-			if(Mathf.Sign(h) != Mathf.Sign (this.rigidbody2D.velocity.x))
+			if(Mathf.Sign(h) != Mathf.Sign (this.GetComponent<Rigidbody2D>().velocity.x))
 			{
-				this.rigidbody2D.AddForce(Vector2.right * h * moveForce * translationStoppingMultiplier);
+				this.GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce * translationStoppingMultiplier);
 			}
-			else if (Mathf.Abs(this.rigidbody2D.velocity.x) < maxPlayerGeneratedSpeed)
+			else if (Mathf.Abs(this.GetComponent<Rigidbody2D>().velocity.x) < maxPlayerGeneratedSpeed)
 			{
-				this.rigidbody2D.AddForce(Vector2.right * h * moveForce);
+				this.GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
 			}
 		}
 
-		if (onMovingPlatform && transform.parent == null)
+		if (onMovingPlatform && transform.parent == null) {
 			transform.parent = platformParent;
+		}
 
 		grounded = false;
 		wallHug = 0f;
