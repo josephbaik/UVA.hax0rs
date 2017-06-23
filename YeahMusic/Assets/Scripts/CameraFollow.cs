@@ -4,35 +4,18 @@ using System.Collections;
 [RequireComponent(typeof(Camera))]
 public class CameraFollow : MonoBehaviour 
 {
-	//Var for config when game was last saved
-	//public static CameraFollowConfig camConfig;
-	//arbitrary constant
-	public const float camZCoordinate = -10.0f;
-
 	//Vars for following the player
-	public float xMargin = 1f;		// Distance in the x axis the player can move before the camera follows.
 	public float yMargin = 1f;		// Distance in the y axis the player can move before the camera follows.
-	public float xSmooth = 8f;		// How smoothly the camera catches up with it's target movement in the x axis.
 	public float ySmooth = 8f;		// How smoothly the camera catches up with it's target movement in the y axis.
-	public float orthoSmooth = 8f;		
 	public Vector2 maxXAndY;		// The maximum x and y coordinates the camera can have.
 	public Vector2 minXAndY;		// The minimum x and y coordinates the camera can have.
 
-	//Vars for locking the camera in place
-	public float lockedOrthoSize = 11f;	// The camera's orthographic size, for zooming in and out
-	private float lockThreshold = 0.01f;
-	private float yFloor = 0f;
-
 	private Transform player;		// Reference to the player's transform.
-	private Camera cam;				// this object's camera component
 
 	void Awake ()
 	{
 		// Setting up the reference.
 		player = GameObject.FindGameObjectWithTag("Player").transform;
-		cam = GetComponent<Camera> ();
-		Debug.Log (cam.orthographicSize * Screen.width);
-		yFloor = cam.orthographicSize * Screen.width;
 	}
 
 	void LateUpdate ()

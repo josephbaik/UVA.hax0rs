@@ -143,19 +143,19 @@ public class AudioController : MonoBehaviour {
 				pos = new Vector2(Random.Range(-11f, 11f) + player.transform.position.x, player.transform.position.y + spawnOffset);
 			}
 			//platform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
-			
-			pos1 = new Vector2(player.transform.position.x + Random.Range(-11f, 11f), pos.y);
+
+			float nx = pos.x + Random.Range (-11f, 11f);
+			nx = (nx - Mathf.Round (nx / 17f) * 17f);
+			if (nx > pos.x - 4.01f && nx < pos.x + 4.01f) {
+				nx = nx > pos.x ? pos.x + 4.01f : pos.x - 4.01f;
+			}
+			pos1 = new Vector2(nx, pos.y);
 
 			GameObject pla;
 			float prob2 = Random.value;
-			if (prob2 < springChance)
-			{
-				lastPlatform = Instantiate(spring, pos, Quaternion.identity) as GameObject;
-				pla = Instantiate(spring, pos1, Quaternion.identity) as GameObject;
-			} else {
-				lastPlatform = Instantiate(platform, pos, Quaternion.identity) as GameObject;
-				pla = Instantiate(platform, pos1, Quaternion.identity) as GameObject;
-			}
+			float prob2a = Random.value;
+			lastPlatform = Instantiate(prob2 < springChance ? spring : platform, pos, Quaternion.identity) as GameObject;
+			pla = Instantiate(prob2a < springChance ? spring : platform, pos1, Quaternion.identity) as GameObject;
 
 			Platform plat = lastPlatform.GetComponent<Platform>();
 			Platform plapla = pla.GetComponent<Platform>();

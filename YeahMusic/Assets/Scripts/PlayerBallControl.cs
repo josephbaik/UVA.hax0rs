@@ -96,12 +96,12 @@ public class PlayerBallControl : MonoBehaviour {
 				wallHug = Mathf.Sign(contact.normal.x);
 		}
 
-		foreach (ContactPoint2D contact in collision.contacts)
+		if (collision.contacts.Length > 0)
 		{
 			if (GetComponent<Rigidbody2D>().velocity.magnitude > frictionThresholdVelocity)
 			{
 				Vector2 frictionDir = -(GetComponent<Rigidbody2D>().velocity.normalized);
-				float frictionMag = contact.normal.magnitude * frictionCoefficient;
+				float frictionMag = collision.contacts[0].normal.magnitude * frictionCoefficient;
 				Vector2 frictionVec = frictionDir * frictionMag;
 				//maybe some safeguards against wall climbing using the normal here
 				GetComponent<Rigidbody2D>().AddForce(frictionVec);

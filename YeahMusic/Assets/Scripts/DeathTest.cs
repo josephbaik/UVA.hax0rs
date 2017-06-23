@@ -26,16 +26,6 @@ public class DeathTest : MonoBehaviour {
 			fadeObj.GetComponent<ScreenFading>().Transition(DeathTransition);
 			playerContact = true;
 		}
-
-		if (col.GetComponent<Platform>() != null)
-		{
-			for(int i = 0; i < col.transform.childCount; i++)
-				if (col.transform.GetChild(i).tag == "Player") {
-					col.transform.GetChild(i).parent = null;
-				}
-			Destroy(col.gameObject);
-			print ("destopry!");
-		}
 	}
 
 	public void DeathTransition() {

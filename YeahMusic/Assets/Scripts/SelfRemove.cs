@@ -3,15 +3,17 @@ using System.Collections;
 
 public class SelfRemove : MonoBehaviour {
 
-	public float activeTime = 10f;
-	private float activeTimer;
-	
+	private Transform cam;
+	private float threshold = 25f;
+
+	void Start() {
+		cam = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+	}
+
 	// Update is called once per frame
 	void Update () {
-		activeTimer += Time.deltaTime;
-		if (activeTimer > activeTime)
-		{
-			Destroy(gameObject);
+		if (cam.position.y > this.transform.position.y + this.threshold) {
+			Destroy (gameObject);
 		}
 	}
 }

@@ -4,23 +4,31 @@ using System.Collections;
 public class ScrollingWallpaper : MonoBehaviour {
 	public Transform parent;
 	public GameObject circle, square, triangle;
+	public float layerThreshold;
+	public int shapesPerLayer;
 	private Camera cam;
-	private Vector2 pos;
-	public int threshold = 0;
-	GameObject elem;
-	float finterval = 9, interval = 7, start = 0;
+	private float posY;
+	private int shapesCounter = 0;
+	private float finterval = 9;
+	private float interval = 7;
+	private float start = 0;
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera>();
-		pos = new Vector2(transform.position.x, transform.position.y);
-        
+		posY = transform.position.y;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		start += interval ;
-		if(transform.position.y >= pos.y + threshold && finterval <= start){
-			
+		start += interval;
+
+		if (transform.position.y >= posY + layerThreshold) {
+			posY = transform.position.y;
+			shapesCounter = 0;
+		}
+
+		if (shapesCounter < shapesPerLayer && finterval <= start) {
+			GameObject elem = null;
 			switch(Random.Range(0, 2)){
 				case 0:
 					elem = Instantiate(circle, new Vector3(Random.Range(-17f, 17f), transform.position.y+14 + Random.Range(-2f, 2f), 10), Random.rotation) as GameObject;
@@ -54,9 +62,10 @@ public class ScrollingWallpaper : MonoBehaviour {
                     elem.GetComponent<Renderer>().material.color = new Color(1,1,1);
                     break;
             }
-            start = 0;
-
 			elem.transform.parent = this.parent;
+
+			start = 0;
+			shapesCounter += 1;
         }
         
         

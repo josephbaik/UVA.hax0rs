@@ -42,6 +42,6 @@ public class GUICounter : MonoBehaviour {
 		//todo: add in volume
 		GetComponent<GUIText> ().text = prefix1 + timeSeconds + 
 			"\n" + prefix2 + volume +  
-				"\n" + prefix3 + string.Format("{0:0.00}", scores);
+				"\n" + prefix3 + string.Format("{0:0}", scores);
 	}
 }
