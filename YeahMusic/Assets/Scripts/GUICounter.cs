@@ -19,7 +19,8 @@ public class GUICounter : MonoBehaviour {
 	private float time = 0f;
 	private GameObject controllerobj;
 	// Use this for initialization
-	void Start () {	
+	void Start () {
+		GUICounter.scores = 0;
 		controllerobj = GameObject.FindGameObjectWithTag ("GameController");
 	}
 	

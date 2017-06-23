@@ -31,7 +31,6 @@ public class DeathTest : MonoBehaviour {
 	public void DeathTransition() {
 		Application.LoadLevel("Death");
 		AudioController.inGame = false;
-		GUICounter.scores = 0;
 	}
 
 }
