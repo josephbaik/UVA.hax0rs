@@ -152,7 +152,6 @@ public class PlayerBallControl : MonoBehaviour {
 		ListenForJump ();
 		if(wallHug == 0f || Mathf.Sign(h) == wallHug)
 		{
-			//recordButtonDelay();
 			//translational movement
 			if(Mathf.Sign(h) != Mathf.Sign (this.GetComponent<Rigidbody2D>().velocity.x))
 			{

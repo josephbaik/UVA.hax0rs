@@ -9,15 +9,9 @@ public class DeathTest : MonoBehaviour {
 	void Start () {
 		fadeObj = GameObject.FindGameObjectWithTag ("ScreenFader");
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-
 		if (col.tag == "Player" && !playerContact)
 		{
 			if (GetComponent<AudioSource>() != null) {
@@ -32,5 +26,4 @@ public class DeathTest : MonoBehaviour {
 		Application.LoadLevel("Death");
 		AudioController.inGame = false;
 	}
-
 }

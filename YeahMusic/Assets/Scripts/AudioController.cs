@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
+/// <summary>
+/// Messy singleton in charge of playing the music and spawning the environment
+/// </summary>
 public class AudioController : MonoBehaviour {
 
 	public static float volume;
@@ -29,7 +31,6 @@ public class AudioController : MonoBehaviour {
 	public GameObject powerup;
 	public GameObject spring;
 
-	private ArrayList platforms;
 	public int interval;
 	public int finterval;
 	private int start;
@@ -69,8 +70,7 @@ public class AudioController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		start = 0;	
-		platforms = new ArrayList();
+		start = 0;
 		if (inGame) {
 			player = GameObject.FindGameObjectWithTag ("Player");
 			playa = player.GetComponent<PlayerBallControl>();
@@ -182,7 +182,6 @@ public class AudioController : MonoBehaviour {
 				plat.type = 1;
 				plapla.type = 1;
 			}
-			platforms.Add(platform);
 
 			float prob3 = Random.value;
 			if (prob3 < powerupChance)

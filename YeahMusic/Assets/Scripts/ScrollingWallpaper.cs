@@ -6,7 +6,6 @@ public class ScrollingWallpaper : MonoBehaviour {
 	public GameObject circle, square, triangle;
 	public float layerThreshold;
 	public int shapesPerLayer;
-	private Camera cam;
 	private float posY;
 	private int shapesCounter = 0;
 	private float finterval = 9;
@@ -14,7 +13,6 @@ public class ScrollingWallpaper : MonoBehaviour {
 	private float start = 0;
 	// Use this for initialization
 	void Start () {
-		cam = GetComponent<Camera>();
 		posY = transform.position.y;
 	}
 	
